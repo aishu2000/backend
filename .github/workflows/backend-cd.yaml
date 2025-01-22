@@ -98,7 +98,7 @@ jobs:
           REPOSITORY: backend
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t  backend:latest $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker build -t  backend:latest $REGISTRY/$REPOSITORY:$IMAGE_TAG
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
       - name: Set up kubectl
@@ -113,5 +113,5 @@ jobs:
         run: |
           cd k8s
           echo "${{secrets.KUBECONFIG}}" > kubeconfig.yaml
-          kustomize edit set image frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+          kustomize edit set image backend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
           kustomize build | kubectl apply --kubeconfig=kubeconfig.yaml -f -
